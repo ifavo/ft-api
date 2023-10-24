@@ -19,7 +19,7 @@ paths:
           example: "favoNow"
       responses:
         '200':
-          description: profile
+          description: Success
           content:
             application/json:
               schema: 
@@ -42,7 +42,7 @@ paths:
           example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
       responses:
         '200':
-          description: profile
+          description: Success
           content:
             application/json:
               schema: 
@@ -53,6 +53,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /points/{address}:
+    get:
+      summary: get airdrop points for current user
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/Points'
+      security:
+        - authorization: []
+  /invite-codes:
+    get:
+      summary: list of personal invite codes
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/InviteCodes'
+      security:
+        - authorization: []
+
+  /search/users:
+    get:
+      summary: search user database
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+          example: "favoNow"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/Points'
+      security:
+        - authorization: []
   /users/by-id/{id}:
     get:
       summary: get profile by user id
@@ -65,7 +116,7 @@ paths:
           example: 13216
       responses:
         '200':
-          description: profile
+          description: Success
           content:
             application/json:
               schema: 
@@ -91,9 +142,7 @@ paths:
           content:
             application/json:
               schema: 
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProfileSearchResult'
+                  $ref: '#/components/schemas/SearchResultPricing'
   /lists/trending:
     get:
       summary: trending users
@@ -109,9 +158,7 @@ paths:
           content:
             application/json:
               schema: 
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProfileSearchResultTrending'
+                  $ref: '#/components/schemas/SearchResultTrending'
   /lists/online:
     get:
       summary: current online users
@@ -127,12 +174,30 @@ paths:
           content:
             application/json:
               schema: 
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProfileSearchResultOnline'
-
+                  $ref: '#/components/schemas/SearchResultOnline'
+  /lists/recent-messagers:
+    get:
+      summary: users that recently send messages
+      parameters:
+        - name: nextPage
+          in: query
+          description: cursor for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of profiles
+          content:
+            application/json:
+              schema: 
+                  $ref: '#/components/schemas/SearchResultMessagers'
 
 components:
+  securitySchemes:
+    authorization:
+      type: apiKey
+      name: authorization
+      in: header
   schemas:
     Error:
       type: object
@@ -219,33 +284,69 @@ components:
           lifetimeFeesCollectedInWei:
             type: string
             example: "0"
+    SearchResultUsers:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfileSearchResult'
+          nextPageStart:
+            type: string
+    SearchResultPricing:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfilePricing'
+          nextPageStart:
+            type: string
+    SearchResultTrending:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfileTrending'
+          nextPageStart:
+            type: string
+    SearchResultOnline:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfileOnline'
+          nextPageStart:
+            type: string
+    SearchResultMessagers:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfileMessagers'
+          nextPageStart:
+            type: string
     ProfileSearchResult:
        type: object
        properties:
-          users:
-            type: array
-            items:
-              $ref: '#/components/schemas/ProfileResult'
-          nextPageStart:
+          address:
             type: string
-    ProfileSearchResultTrending:
-       type: object
-       properties:
-          users:
-            type: array
-            items:
-              $ref: '#/components/schemas/ProfileResultTrending'
-          nextPageStart:
+            example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+          twitterUsername:
             type: string
-    ProfileSearchResultOnline:
-       type: object
-       properties:
-          users:
-            type: array
-            items:
-              $ref: '#/components/schemas/ProfileResultOnline'
-          nextPageStart:
+            example: "favoNow"
+          twitterName:
             type: string
+            example: "favo.ᴱᵀᴴ"
+          twitterPfpUrl:
+            type: string
+            example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0x15c588372592ae73e5f86ccf430fa63b9b0852d6.jpg?Expires=1698144510&Key-Pair-Id=K11ON08J8XW8N0&Signature=LF5hoKaf5EzLQwKrO4kHMk-xZ9ALp3cKgEcNt3vXidiUb-ohuxHxDyhTG~oWbAxwpIRuKPcov87ljxofKhwrx2HpRir2Aibiih~yTkR7NyVudQNz8rW8dctCXBwmQdIlZhV20gLd2CqP7j3cpv5TvF6Hre4aocyXtBvRA6i5E9-mWNxI-bMLFcIUcwXnNIvF3b8SrBm37BOPAc-RdPolTLlc9UQ3NrxRGtUpNjvrrbaZMfBnRaHDt-ZYZ0lfj7BhzTIXsqE~ngpoJS4rIyaQZx9Q3pG2yfVv9FKBh9RmGDhCW45tJ81-UCtVYuz5i0AHkCTWClECS9pGVXolda09LA__"
+          twitterUserId:
+            type: string
+            example: "2650314022"
     ProfileResult:
        type: object
        properties:
@@ -285,7 +386,7 @@ components:
           change24H:
             type: string
             example: "-4.2"
-    ProfileResultTrending:
+    ProfileTrending:
        type: object
        properties:
           address:
@@ -315,8 +416,7 @@ components:
           change24H:
             type: string
             example: "-4.2"
-
-    ProfileResultOnline:
+    ProfileOnline:
        type: object
        properties:
           address:
@@ -337,3 +437,56 @@ components:
           ethDisplayPrice:
             type: number
             example: 400000000000000000
+    ProfileMessagers:
+       type: object
+       properties:
+          address:
+            type: string
+            example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+          twitterUsername:
+            type: string
+            example: "favoNow"
+          twitterName:
+            type: string
+            example: "favo.ᴱᵀᴴ"
+          twitterPfpUrl:
+            type: string
+            example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0x15c588372592ae73e5f86ccf430fa63b9b0852d6.jpg?Expires=1698144510&Key-Pair-Id=K11ON08J8XW8N0&Signature=LF5hoKaf5EzLQwKrO4kHMk-xZ9ALp3cKgEcNt3vXidiUb-ohuxHxDyhTG~oWbAxwpIRuKPcov87ljxofKhwrx2HpRir2Aibiih~yTkR7NyVudQNz8rW8dctCXBwmQdIlZhV20gLd2CqP7j3cpv5TvF6Hre4aocyXtBvRA6i5E9-mWNxI-bMLFcIUcwXnNIvF3b8SrBm37BOPAc-RdPolTLlc9UQ3NrxRGtUpNjvrrbaZMfBnRaHDt-ZYZ0lfj7BhzTIXsqE~ngpoJS4rIyaQZx9Q3pG2yfVv9FKBh9RmGDhCW45tJ81-UCtVYuz5i0AHkCTWClECS9pGVXolda09LA__"
+          twitterUserId:
+            type: string
+            example: "2650314022"
+          lastMessageTimestamp:
+            type: string
+            example: "1698146632698"
+          ethDisplayPrice:
+            type: number
+            example: 400000000000000000
+    Points:
+      type: object
+      properties:
+        address:
+          type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+        totalPoints:
+          type: integer
+          example: 4818
+        leaderboard:
+          type: integer
+          example: 792
+        tier:
+          type: string
+          example: "DIAMOND"
+    InviteCodes:
+      type: object
+      properties:
+        inviteCodes:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                example: "ft-2m6384qb"
+              isUsed:
+                type: boolean
+                example: false

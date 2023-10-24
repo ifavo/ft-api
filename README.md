@@ -6,15 +6,15 @@ Known endpoints:
 - ~~https://prod-api.kosetto.com/lists/top-by-price~~
 - ~~https://prod-api.kosetto.com/lists/trending~~
 - ~~https://prod-api.kosetto.com/lists/online~~
-- https://prod-api.kosetto.com/lists/recent-messagers
+- ~~https://prod-api.kosetto.com/lists/recent-messagers~~
 - ~~https://prod-api.kosetto.com/users/:address~~
 - https://prod-api.kosetto.com/users/:address/token/holders?pageStart=:nextPageStart
 - https://prod-api.kosetto.com/users/:address/token-holdings?pageStart=:nextPageStart
 - https://prod-api.kosetto.com/users/:address/trade-activity?pageStart=:nextPageStart
 - https://prod-api.kosetto.com/users/:address/portfolio?pageStart=:nextPageStart
 - https://prod-api.kosetto.com/users/:address/wallet-info
-- https://prod-api.kosetto.com/search/users?username=:username
-- https://prod-api.kosetto.com/points/:address
+- ~~https://prod-api.kosetto.com/search/users?username=:username~~
+- ~~https://prod-api.kosetto.com/points/:address~~
 - https://prod-api.kosetto.com/users/auth
 - ~~https://prod-api.kosetto.com/users/by-id/:ftId~~
 - https://prod-api.kosetto.com/twitter/oauth/access_token
@@ -24,7 +24,7 @@ Known endpoints:
 - https://prod-api.kosetto.com/notifications/chatRooms/:address
 - https://prod-api.kosetto.com/watchlist-users/:address
 - https://prod-api.kosetto.com/used-code
-- https://prod-api.kosetto.com/invite-codes
+- ~~https://prod-api.kosetto.com/invite-codes~~
 - https://prod-api.kosetto.com/self-chat/:address
 - https://prod-api.kosetto.com/messages/:address
 - https://prod-api.kosetto.com/watchlist/:address
