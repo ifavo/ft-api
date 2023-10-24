@@ -1,0 +1,339 @@
+openapi: 3.0.3
+info:
+  title: friend.tech API
+  description: |-
+    list of known endpoints found with the help of network monitoring
+  version: 1.0.0
+servers:
+  - url: https://prod-api.kosetto.com
+paths:
+  /twitter-users/{twitterUsername}:
+    get:
+      summary: get profile by twitter username
+      parameters:
+        - name: twitterUsername
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "favoNow"
+      responses:
+        '200':
+          description: profile
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/Profile'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{address}:
+    get:
+      summary: get profile by address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+      responses:
+        '200':
+          description: profile
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/Profile'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/by-id/{id}:
+    get:
+      summary: get profile by user id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+          example: 13216
+      responses:
+        '200':
+          description: profile
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/Profile2'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /lists/top-by-price:
+    get:
+      summary: top users by key price
+      parameters:
+        - name: nextPage
+          in: query
+          description: cursor for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of profiles
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileSearchResult'
+  /lists/trending:
+    get:
+      summary: trending users
+      parameters:
+        - name: nextPage
+          in: query
+          description: cursor for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of profiles
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileSearchResultTrending'
+  /lists/online:
+    get:
+      summary: current online users
+      parameters:
+        - name: nextPage
+          in: query
+          description: cursor for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of profiles
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProfileSearchResultOnline'
+
+
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+    Profile:
+     type: object
+     properties:
+        id:
+          type: integer
+          example: 13216
+        address:
+          type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+        twitterUsername:
+          type: string
+          example: "favoNow"
+        twitterName:
+          type: string
+          example: "favo.ᴱᵀᴴ"
+        twitterPfpUrl:
+          type: string
+          example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0x15c588372592ae73e5f86ccf430fa63b9b0852d6.jpg?Expires=1698144510&Key-Pair-Id=K11ON08J8XW8N0&Signature=LF5hoKaf5EzLQwKrO4kHMk-xZ9ALp3cKgEcNt3vXidiUb-ohuxHxDyhTG~oWbAxwpIRuKPcov87ljxofKhwrx2HpRir2Aibiih~yTkR7NyVudQNz8rW8dctCXBwmQdIlZhV20gLd2CqP7j3cpv5TvF6Hre4aocyXtBvRA6i5E9-mWNxI-bMLFcIUcwXnNIvF3b8SrBm37BOPAc-RdPolTLlc9UQ3NrxRGtUpNjvrrbaZMfBnRaHDt-ZYZ0lfj7BhzTIXsqE~ngpoJS4rIyaQZx9Q3pG2yfVv9FKBh9RmGDhCW45tJ81-UCtVYuz5i0AHkCTWClECS9pGVXolda09LA__"
+        twitterUserId:
+          type: string
+          example: "2650314022"
+        lastOnline:
+          type: string
+          example: "1698144349012"
+        lastMessageTime:
+          type: string
+          example: "1698138532542"
+        holderCount:
+          type: integer
+          example: 57
+        holdingCount:
+          type: integer
+          example: 36
+        watchlistCount:
+          type: integer
+          example: 143
+        shareSupply:
+          type: integer
+          example: 80
+        displayPrice:
+          type: string
+          example: "400000000000000000"
+        lifetimeFeesCollectedInWei:
+          type: string
+          example: "0"
+        userBio:
+          type: string
+          example: "\"frenfren.pro gate keeper\""
+        rank:
+          type: string
+          example: "319"
+    Profile2:
+       type: object
+       properties:
+          id:
+            type: integer
+            example: 13216
+          address:
+            type: string
+            example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+          twitterUsername:
+            type: string
+            example: "favoNow"
+          twitterName:
+            type: string
+            example: "favo.ᴱᵀᴴ"
+          twitterPfpUrl:
+            type: string
+            example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0x15c588372592ae73e5f86ccf430fa63b9b0852d6.jpg?Expires=1698144510&Key-Pair-Id=K11ON08J8XW8N0&Signature=LF5hoKaf5EzLQwKrO4kHMk-xZ9ALp3cKgEcNt3vXidiUb-ohuxHxDyhTG~oWbAxwpIRuKPcov87ljxofKhwrx2HpRir2Aibiih~yTkR7NyVudQNz8rW8dctCXBwmQdIlZhV20gLd2CqP7j3cpv5TvF6Hre4aocyXtBvRA6i5E9-mWNxI-bMLFcIUcwXnNIvF3b8SrBm37BOPAc-RdPolTLlc9UQ3NrxRGtUpNjvrrbaZMfBnRaHDt-ZYZ0lfj7BhzTIXsqE~ngpoJS4rIyaQZx9Q3pG2yfVv9FKBh9RmGDhCW45tJ81-UCtVYuz5i0AHkCTWClECS9pGVXolda09LA__"
+          twitterUserId:
+            type: string
+            example: "2650314022"
+          lastOnline:
+            type: string
+            example: "1698144349012"
+          lifetimeFeesCollectedInWei:
+            type: string
+            example: "0"
+    ProfileSearchResult:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfileResult'
+          nextPageStart:
+            type: string
+    ProfileSearchResultTrending:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfileResultTrending'
+          nextPageStart:
+            type: string
+    ProfileSearchResultOnline:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProfileResultOnline'
+          nextPageStart:
+            type: string
+    ProfileResult:
+       type: object
+       properties:
+          id:
+            type: integer
+            example: 13216
+          address:
+            type: string
+            example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+          twitterUsername:
+            type: string
+            example: "favoNow"
+          twitterName:
+            type: string
+            example: "favo.ᴱᵀᴴ"
+          twitterPfpUrl:
+            type: string
+            example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0x15c588372592ae73e5f86ccf430fa63b9b0852d6.jpg?Expires=1698144510&Key-Pair-Id=K11ON08J8XW8N0&Signature=LF5hoKaf5EzLQwKrO4kHMk-xZ9ALp3cKgEcNt3vXidiUb-ohuxHxDyhTG~oWbAxwpIRuKPcov87ljxofKhwrx2HpRir2Aibiih~yTkR7NyVudQNz8rW8dctCXBwmQdIlZhV20gLd2CqP7j3cpv5TvF6Hre4aocyXtBvRA6i5E9-mWNxI-bMLFcIUcwXnNIvF3b8SrBm37BOPAc-RdPolTLlc9UQ3NrxRGtUpNjvrrbaZMfBnRaHDt-ZYZ0lfj7BhzTIXsqE~ngpoJS4rIyaQZx9Q3pG2yfVv9FKBh9RmGDhCW45tJ81-UCtVYuz5i0AHkCTWClECS9pGVXolda09LA__"
+          twitterUserId:
+            type: string
+            example: "2650314022"
+          lastOnline:
+            type: string
+            example: "1698144349012"
+          holderCount:
+            type: integer
+            example: 57
+          shareSupply:
+            type: integer
+            example: 80
+          displayPrice:
+            type: string
+            example: "400000000000000000"
+          ethDisplayPrice:
+            type: number
+            example: 400000000000000000
+          change24H:
+            type: string
+            example: "-4.2"
+    ProfileResultTrending:
+       type: object
+       properties:
+          address:
+            type: string
+            example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+          twitterUsername:
+            type: string
+            example: "favoNow"
+          twitterName:
+            type: string
+            example: "favo.ᴱᵀᴴ"
+          twitterPfpUrl:
+            type: string
+            example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0x15c588372592ae73e5f86ccf430fa63b9b0852d6.jpg?Expires=1698144510&Key-Pair-Id=K11ON08J8XW8N0&Signature=LF5hoKaf5EzLQwKrO4kHMk-xZ9ALp3cKgEcNt3vXidiUb-ohuxHxDyhTG~oWbAxwpIRuKPcov87ljxofKhwrx2HpRir2Aibiih~yTkR7NyVudQNz8rW8dctCXBwmQdIlZhV20gLd2CqP7j3cpv5TvF6Hre4aocyXtBvRA6i5E9-mWNxI-bMLFcIUcwXnNIvF3b8SrBm37BOPAc-RdPolTLlc9UQ3NrxRGtUpNjvrrbaZMfBnRaHDt-ZYZ0lfj7BhzTIXsqE~ngpoJS4rIyaQZx9Q3pG2yfVv9FKBh9RmGDhCW45tJ81-UCtVYuz5i0AHkCTWClECS9pGVXolda09LA__"
+          lastOnline:
+            type: string
+            example: "1698144349012"
+          displayPrice:
+            type: string
+            example: "400000000000000000"
+          volume:
+            type: string
+            example: "400000000000000000"
+          netBuy:
+            type: string
+            example: "400000000000000000"
+          change24H:
+            type: string
+            example: "-4.2"
+
+    ProfileResultOnline:
+       type: object
+       properties:
+          address:
+            type: string
+            example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+          twitterUsername:
+            type: string
+            example: "favoNow"
+          twitterName:
+            type: string
+            example: "favo.ᴱᵀᴴ"
+          twitterPfpUrl:
+            type: string
+            example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0x15c588372592ae73e5f86ccf430fa63b9b0852d6.jpg?Expires=1698144510&Key-Pair-Id=K11ON08J8XW8N0&Signature=LF5hoKaf5EzLQwKrO4kHMk-xZ9ALp3cKgEcNt3vXidiUb-ohuxHxDyhTG~oWbAxwpIRuKPcov87ljxofKhwrx2HpRir2Aibiih~yTkR7NyVudQNz8rW8dctCXBwmQdIlZhV20gLd2CqP7j3cpv5TvF6Hre4aocyXtBvRA6i5E9-mWNxI-bMLFcIUcwXnNIvF3b8SrBm37BOPAc-RdPolTLlc9UQ3NrxRGtUpNjvrrbaZMfBnRaHDt-ZYZ0lfj7BhzTIXsqE~ngpoJS4rIyaQZx9Q3pG2yfVv9FKBh9RmGDhCW45tJ81-UCtVYuz5i0AHkCTWClECS9pGVXolda09LA__"
+          twitterUserId:
+            type: string
+            example: "2650314022"
+          ethDisplayPrice:
+            type: number
+            example: 400000000000000000
