@@ -53,6 +53,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /users/{address}/token/holders:
+    get:
+      summary: holders of keys of the given address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultTokenHolders'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{address}/token-holdings:
+    get:
+      summary: holdings by the given address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultTokenHolders'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /portfolio/{address}:
+    get:
+      summary: holdings by the given address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultPortfolio'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - authorization: []
   /points/{address}:
     get:
       summary: get airdrop points for current user
@@ -347,6 +418,24 @@ components:
           twitterUserId:
             type: string
             example: "2650314022"
+    ResultTokenHolders:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/TokenHolder'
+          nextPageStart:
+            type: string
+    ResultPortfolio:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/PortfolioHolding'
+          nextPageStart:
+            type: string
     ProfileResult:
        type: object
        properties:
@@ -490,3 +579,78 @@ components:
               isUsed:
                 type: boolean
                 example: false
+    TokenHolder:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5891
+        address:
+          type: string
+          example: "0xa84bd0e9646170b91c75a999332954a15e4969b3"
+        twitterUsername:
+          type: string
+          example: "0xBreadguy"
+        twitterName:
+          type: string
+          example: "BREAD"
+        twitterPfpUrl:
+          type: string
+          example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0xa84bd0e9646170b91c75a999332954a15e4969b3.jpg?Expires=1698148506&Key-Pair-Id=K11ON08J8XW8N0&Signature=DkfhF9Y2ncAT9Uh5gmV3cI~KVh3wLSV9NUc64KCZ4KTgxj4QR0GViwde6g9YFWJHDG01j3sCj7ppvaSa-klcQ0A7bIWlT5hwAGPRakv-4c-xSQkPbwnv1vr6JUbXDrZszmx3JDQxX86X5Dj04UWF5VcdBEqLBmuQu1h4sSI-RofNgWOPpZCa2mwKA6aafAZWxZBg3O3RwdhBFElort5Ebi-jhz41uUkjVtHQoQnu8ji2U09RVNfWw1YDmknOHH0UJNNhar0xlZzOw7RYHy6zysjaNaApgLJd3XXq~pndf0rpu2RvPDvnxcA3vLPLKlhzJopgeEzXhU8S2pTZJB0rSQ__"
+        twitterUserId:
+          type: string
+          example: "1453661470869360643"
+        lastOnline:
+          type: integer
+          example: 1691761948730
+        balance:
+          type: string
+          example: "5"
+    PortfolioHolding:
+      type: object
+      properties:
+        pfpUrl:
+          type: string
+          example: "https://d3egfmvgqzu76k.cloudfront.net/twitterPfps/0xe62c995a0777a740ae6dc4ad416e7435b0d0a53b.jpg?Expires=1698148877&Key-Pair-Id=K11ON08J8XW8N0&Signature=myUh-nwjDaMJm4l6La6YF0hRVoXnGstIG3tGOXrfbZypfF4rtHp8A5~jMo1OfcxB7URNr3ecl-I9mTf4spUeI6YUEDXKzGnYTlMYhwB1grv~JnK623~eQaq5Zfg5vLaOPDb9jUpldKcq6ngJeLewXbSL77HuYzZ8zc1imy7yCzVHaNLhdcWfysbvczEC59BV-Inr0K7B6ExypmABfY1zGRXJgl84rzKvxtLNgXZ3NfHiHdk6js2Lt9UQfF~KjCkgydJPyE6hSur6hszUAIfriDGgcQZliyd~~SkaG1riUxi6DWYRkqbR~TaOeblEOTQAOoP6Pzow4QQWQLotNtRToQ__"
+        username:
+          type: string
+          example: "gman_eth"
+        name:
+          type: string
+          example: "Gman"
+        subject:
+          type: string
+          example: "0xe62c995a0777a740ae6dc4ad416e7435b0d0a53b"
+        chatRoomId:
+          type: string
+          example: "0xe62c995a0777a740ae6dc4ad416e7435b0d0a53b"
+        price:
+          type: string
+          example: "1008062500000000100"
+        balance:
+          type: string
+          example: "1"
+        balanceEthValue:
+          type: string
+          example: "1008062500000000100"
+        lastOnline:
+          type: integer
+          example: 1698148756689
+        lastMessageName:
+          type: string
+          example: "Gman"
+        lastMessageTime:
+          type: integer
+          example: 1698148710737
+        lastMessageText:
+          type: string
+          example: "\"GM! \""
+        lastRead:
+          type: integer
+          example: 1698148710758
+        change24H:
+          type: string
+          example: "-16.3680327360654606"
+        rank:
+          type: integer
+          example: 90
