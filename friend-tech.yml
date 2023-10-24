@@ -99,6 +99,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /users/{address}/trade-activity:
+    get:
+      summary: trades made by the given address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultTrade'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{address}/token/trade-activity:
+    get:
+      summary: trades made on the given address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0x15c588372592ae73e5f86ccf430fa63b9b0852d6"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultTrade'
+        '404':
+          description: 'Not Found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - authorization: []
   /portfolio/{address}:
     get:
       summary: holdings by the given address
@@ -427,6 +475,15 @@ components:
               $ref: '#/components/schemas/TokenHolder'
           nextPageStart:
             type: string
+    ResultTrade:
+       type: object
+       properties:
+          users:
+            type: array
+            items:
+              $ref: '#/components/schemas/Trade'
+          nextPageStart:
+            type: string
     ResultPortfolio:
        type: object
        properties:
@@ -654,3 +711,33 @@ components:
         rank:
           type: integer
           example: 90
+    Trade:
+      type: object
+      properties:
+        twitterUsername:
+          type: string
+          example: "shrimpintern"
+        twitterName:
+          type: string
+          example: "junior developer"
+        twitterPfpUrl:
+          type: string
+          example: "https://pbs.twimg.com/profile_images/1669929965641515008/ORve4r7s.jpg"
+        twitterUserId:
+          type: string
+          example: "1528121900660056068"
+        subject:
+          type: string
+          example: "0x6cfc8df1b6267124ffe294fcbeea029581668ca0"
+        isBuy:
+          type: boolean
+          example: true
+        shareAmount:
+          type: string
+          example: "1"
+        ethAmount:
+          type: string
+          example: "5062500000000000"
+        createdAt:
+          type: integer
+          example: 1697830152290

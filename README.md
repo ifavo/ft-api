@@ -10,7 +10,8 @@ Known endpoints:
 - ~~https://prod-api.kosetto.com/users/:address~~
 - ~~https://prod-api.kosetto.com/users/:address/token/holders?pageStart=:nextPageStart~~
 - ~~https://prod-api.kosetto.com/users/:address/token-holdings?pageStart=:nextPageStart~~
-- https://prod-api.kosetto.com/users/:address/trade-activity?pageStart=:nextPageStart
+- ~~https://prod-api.kosetto.com/users/:address/token/trade-activity?pageStart=:nextPageStart~~
+- ~~https://prod-api.kosetto.com/users/:address/trade-activity?pageStart=:nextPageStart~~
 - ~~https://prod-api.kosetto.com/users/:address/portfolio?pageStart=:nextPageStart~~
 - https://prod-api.kosetto.com/users/:address/wallet-info
 - ~~https://prod-api.kosetto.com/search/users?username=:username~~
