@@ -23,13 +23,13 @@ Known endpoints:
 - https://prod-api.kosetto.com/twitter/first-share-tweet
 - https://prod-api.kosetto.com/signature
 - https://prod-api.kosetto.com/notifications/chatRooms/:address
-- https://prod-api.kosetto.com/watchlist-users/:address
+- ~~https://prod-api.kosetto.com/watchlist-users/:address~~
 - https://prod-api.kosetto.com/used-code
 - ~~https://prod-api.kosetto.com/invite-codes~~
 - https://prod-api.kosetto.com/self-chat/:address
 - https://prod-api.kosetto.com/messages/:address
 - https://prod-api.kosetto.com/watchlist/:address
-- https://prod-api.kosetto.com/watchlist-activity/:address
+- ~~https://prod-api.kosetto.com/watchlist-activity/:address~~
 - https://prod-api.kosetto.com/friends-activity
 - https://prod-api.kosetto.com/holdings-activity
 - https://prod-api.kosetto.com/refresh-twitter-metadata/:address

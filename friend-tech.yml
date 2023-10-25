@@ -147,6 +147,84 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - authorization: []
+  /watchlist-users/{address}:
+    get:
+      summary: status of the given address in the watchlist of the current user
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0xa84bd0e9646170b91c75a999332954a15e4969b3"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  isWatching:
+                    type: boolean
+                    default: false
+      security:
+        - authorization: []
+    post:
+      summary: add address to watchlist
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0xa84bd0e9646170b91c75a999332954a15e4969b3"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+      security:
+        - authorization: []
+    delete:
+      summary: remove address from watchlist
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0xa84bd0e9646170b91c75a999332954a15e4969b3"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+      security:
+        - authorization: []
+  /watchlist-activity/{address}:
+    get:
+      summary: status of the given address in the watchlist of the current user
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0xa84bd0e9646170b91c75a999332954a15e4969b3"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultWatchlist'
   /portfolio/{address}:
     get:
       summary: holdings by the given address
@@ -493,6 +571,15 @@ components:
               $ref: '#/components/schemas/PortfolioHolding'
           nextPageStart:
             type: string
+    ResultWatchlist:
+       type: object
+       properties:
+          events:
+            type: array
+            items:
+              $ref: '#/components/schemas/WatchlistEvent'
+          nextPageStart:
+            type: string
     ProfileResult:
        type: object
        properties:
@@ -741,3 +828,48 @@ components:
         createdAt:
           type: integer
           example: 1697830152290
+    WatchlistEvent:
+      type: object
+      properties:
+        trader:
+          type: object
+          properties:
+            address:
+              type: string
+              example: "0xbf6a962bf77e030cb6de320dd19340b729f07b24"
+            pfpUrl:
+              type: string
+              example: "https://pbs.twimg.com/profile_images/1630534934073950211/JYQQc0z5.jpg"
+            username:
+              type: string
+              example: "zkay_eth"
+            name:
+              type: string
+              example: "zkay 🐧"
+        subject:
+          type: object
+          properties:
+            address:
+              type: string
+              example: "0x150d04f632ef96e337e3d7637ab1ee90b8097c89"
+            pfpUrl:
+              type: string
+              example: "https://pbs.twimg.com/profile_images/1700506006114156544/_9AMGwsE.jpg"
+            username:
+              type: string
+              example: "forcefie1d"
+            name:
+              type: string
+              example: "Courtney Forcefield"
+        isBuy:
+          type: boolean
+          example: false
+        shareAmount:
+          type: string
+          example: "1"
+        ethAmount:
+          type: string
+          example: "144000000000000000"
+        createdAt:
+          type: integer
+          example: 1698218314325```
