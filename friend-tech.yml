@@ -210,7 +210,7 @@ paths:
         - authorization: []
   /watchlist-activity/{address}:
     get:
-      summary: status of the given address in the watchlist of the current user
+      summary: watchlist related activities
       parameters:
         - name: address
           in: path
@@ -224,7 +224,45 @@ paths:
           content:
             application/json:
               schema: 
-                 $ref: '#/components/schemas/ResultWatchlist'
+                 $ref: '#/components/schemas/ResultActivity'
+  /friends-activity/{address}:
+    get:
+      summary: activity of friends of the given address
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0xa84bd0e9646170b91c75a999332954a15e4969b3"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultActivity'
+      security:
+        - authorization: []
+  /holdings-activity/{address}:
+    get:
+      summary: activity of given address holdings trades
+      parameters:
+        - name: address
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "0xa84bd0e9646170b91c75a999332954a15e4969b3"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema: 
+                 $ref: '#/components/schemas/ResultActivity'
+      security:
+        - authorization: []
   /portfolio/{address}:
     get:
       summary: holdings by the given address
@@ -571,13 +609,13 @@ components:
               $ref: '#/components/schemas/PortfolioHolding'
           nextPageStart:
             type: string
-    ResultWatchlist:
+    ResultActivity:
        type: object
        properties:
           events:
             type: array
             items:
-              $ref: '#/components/schemas/WatchlistEvent'
+              $ref: '#/components/schemas/ActivityEvent'
           nextPageStart:
             type: string
     ProfileResult:
@@ -828,7 +866,7 @@ components:
         createdAt:
           type: integer
           example: 1697830152290
-    WatchlistEvent:
+    ActivityEvent:
       type: object
       properties:
         trader:

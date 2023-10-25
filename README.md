@@ -30,8 +30,8 @@ Known endpoints:
 - https://prod-api.kosetto.com/messages/:address
 - https://prod-api.kosetto.com/watchlist/:address
 - ~~https://prod-api.kosetto.com/watchlist-activity/:address~~
-- https://prod-api.kosetto.com/friends-activity
-- https://prod-api.kosetto.com/holdings-activity
+- ~~https://prod-api.kosetto.com/friends-activity~~
+- ~~https://prod-api.kosetto.com/holdings-activity~~
 - https://prod-api.kosetto.com/refresh-twitter-metadata/:address
 - https://prod-api.kosetto.com/user-bio
 - https://prod-api.kosetto.com/gating-state
